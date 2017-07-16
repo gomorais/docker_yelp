@@ -1,0 +1,26 @@
+version: '2'
+services:
+  spark:
+    image: p7hb/docker-spark:2.1.1
+    depends_on: 
+      - cassandra
+    ports:
+      - "4040:4040" 
+      - "8080:8080" 
+      - "8081:8081"
+    volumes:
+      - ./spark/data:/data
+      - ./spark/src:/opt/src
+    command: ["/opt/src/wait-for-it.sh","cassandra:9042","--","spark-submit --jars /opt/src/jsr166e-1.1.0.jar,/opt/src/spark-cassandra-connector-2.0.3-s_2.11.jar --class com.morais.spark.MyTest /opt/src/MyTest.jar"] 
+
+  cassandra:
+    image: cassandra:2.1
+    ports:
+      - "9042:9042"
+      - "9160:9160"
+
+  python_api:
+    build: python_api/
+    ports:
+      - "8888:8888"
+    command: python app.py
