@@ -8,7 +8,7 @@ As the dataset is quite large, the Spark job is limiting the input to 1000 rows 
 
 ## Running the project
 
-The start-script.sh starts the pipeline. It expectes the path to the .tar file containing the yelp dataset. 
+The start-script.sh starts the pipeline. It expectes the path to the .tar file containing the yelp dataset containing the files as downloaded from the source.. 
 After that it will start the docker-compose. Just run:
 
           ./start-script.sh {file_path}
