@@ -17,13 +17,16 @@ def main():
 
 class DB(object):
     def __init__(self):
-        #self.cluster = Cluster(["cassandra"])
-        self.cluster = Cluster()
+        self.cluster = Cluster(["cassandra"])
+        self.session = self.cluster.connect()
+        self.session.execute("create keyspace if not exists users with replication = {'class': 'SimpleStrategy', 'replication_factor':1};")
+        self.session.set_keyspace('users')
+        #self.cluster = Cluster()
         self.tables = ["business", "review", "user", "checkin", "tip"]
 
     @return_future
     def search(self, table, callback=None):
-        self.session = self.cluster.connect('users')
+        #self.session = self.cluster.connect('system')
         if table not in self.tables:
             return callback(["no matching table"])
 
